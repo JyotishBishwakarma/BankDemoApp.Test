@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+     
+    <import resource="../data/data-context.xml" />
+	<import resource="../datasource/datasource-context.xml" />
+
+	<!-- DAO Implementations -->
+	<bean id="testBedDao" class="com.iso.nextgen.test.ui.dao.impl.TestBedDaoImpl">
+		<property name="dataSource" ref="datasource" />
+	</bean>
+
+	<!-- Service Implementations -->
+	<bean id="testBedService" class="com.iso.nextgen.test.ui.service.impl.TestBedServiceImpl">
+    </bean>
+
+	<bean id="environment"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" value="#{@systemProperties}" />
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<!-- The new Properties -->
+			<util:properties>
+				<!-- Selenium Common Configuration -->
+				<!-- 1 - Firefox; 2 - Internet Explorer; 3 - Chrome; -->
+				<prop key="selenium.browser">3</prop>
+				<prop key="TargetEnvironment">Q</prop>
+				<!-- <prop key="RemoteUrl">http://qawin7vmp02.iso.com:4444/wd/hub</prop>  
+				<prop key="RunArguments">40</prop> -->
+			</util:properties>
+		</property>
+	</bean>
+
+</beans>
